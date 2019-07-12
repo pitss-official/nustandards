@@ -17,3 +17,4 @@ mix.js('resources/js/app.js', 'public/js')
         'resources/sass/pace.css',
     ],'public/css/all.css')
     .sass('resources/sass/app.scss', 'public/css');
+mix.browserSync('localhost:8000');

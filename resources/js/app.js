@@ -7,7 +7,45 @@
 require('./bootstrap');
 
 window.Vue = require('vue');
+import VueRouter from 'vue-router';
+import VeeValidate from 'vee-validate';
+import Swal from 'sweetalert2';
+import {
+    Form,
+    HasError,
+    AlertError,
+    AlertErrors,
+    AlertSuccess
+} from 'vform';
+Vue.component(HasError.name, HasError);
+Vue.component(AlertError.name, AlertError);
+Vue.component(AlertErrors.name, AlertErrors);
+Vue.component(AlertSuccess.name, AlertSuccess);
 
+Vue.use(VueRouter);
+window.Swal=Swal;
+window.swal=Swal;
+window.Form=Form;
+window.Toast = swal.mixin({
+    toast: true,
+    // position: 'top-end',
+    showConfirmButton: true,
+    // timer: 3000
+});
+window.linker1=0
+Vue.use(VeeValidate);
+let routes=[
+    {path:'/activeCertifications',component: require('./components/Test/AttemptTest').default},
+    {path:'/passedCertifications',component: require('./components/Test/PassedTests').default},
+    {path:'/contactUs',component: require('./components/Contact/Contact').default},
+    {path:'/home',component: require('./components/StudentDashboard').default},
+]
+const router =new VueRouter({
+    mode:'history',
+    routes
+})
+// loadProgressBar()
+Vue.component('testLink', require('./components/ExampleComponent').default);
 /**
  * The following block of code may be used to automatically register your
  * Vue components. It will recursively scan this directory for the Vue
@@ -19,8 +57,6 @@ window.Vue = require('vue');
 // const files = require.context('./', true, /\.vue$/i);
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default));
 
-Vue.component('example-component', require('./components/ExampleComponent.vue').default);
-
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
@@ -28,5 +64,5 @@ Vue.component('example-component', require('./components/ExampleComponent.vue').
  */
 
 const app = new Vue({
-    el: '#app',
+    el: '#app',router,
 });

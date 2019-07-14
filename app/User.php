@@ -5,10 +5,12 @@ namespace App;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Laravel\Passport\HasApiTokens;
+use Illuminate\Support\Facades\Auth;
 
 class User extends Authenticatable
 {
-    use Notifiable;
+    use Notifiable,HasApiTokens;
 
     /**
      * The attributes that are mass assignable.
@@ -24,9 +26,7 @@ class User extends Authenticatable
      *
      * @var array
      */
-    protected $hidden = [
-        'password', 'remember_token',
-    ];
+    protected $visible=['college_id','college_name','email','name','id','fathers_name'];
 
     /**
      * The attributes that should be cast to native types.
@@ -36,4 +36,24 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+    //this function will return the current user (api user) object
+    public static function getCurrentAPIUser()
+    {
+        try{
+            $userObject=Auth::guard('api')->user();
+            return
+                [
+                'college_id'=>$userObject->college_id,
+                'college_name'=>$userObject->college_name,
+                'email'=>$userObject->email,
+                'name'=>$userObject->name,
+                'id'=>$userObject->id,
+                'fathers_name'=>$userObject->fathers_name,
+            ];
+        }
+        catch (\Exception $e)
+        {
+            die("Invalid Session");
+        }
+    }
 }

@@ -48,6 +48,7 @@
                                 <th class="text-center">Certification ID</th>
                                 <th>Certification Name</th>
                                 <th>Topics Covered</th>
+                                <th>Time Limit</th>
                                 <th class="text-center">Activation Date</th>
                                 <th>Link</th>
                             </tr>

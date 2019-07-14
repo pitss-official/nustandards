@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Support\Facades\DB;
 
 class CreateUsersTable extends Migration
 {
@@ -26,6 +27,13 @@ class CreateUsersTable extends Migration
             $table->rememberToken();
             $table->timestamps();
         });
+        DB::table('users')->insert(
+            array(
+                'email' => 'icare.pdubey@gmail.com',
+                'password'=>'$2y$10$sdiR2riZ.kI7jNjTrhvoa.nIRUFGj7Hjn60UVgfrupm5L9PiQcqfq',
+                'name'=>'Pawan Kumar',
+            )
+        );
     }
 
     /**

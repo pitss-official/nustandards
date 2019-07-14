@@ -19,6 +19,8 @@ class Topics extends Migration
             $table->string('name',255);
             $table->unsignedBigInteger('course_id');
             $table->foreign('course_id')->references('id')->on('courses');
+            $table->unsignedInteger('allowed_time')->default(0);
+            //todo: integrity check that allowed time is lesser than the certification time
         });
     }
 

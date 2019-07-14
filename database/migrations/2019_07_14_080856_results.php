@@ -18,7 +18,7 @@ class Results extends Migration
             $table->unsignedBigInteger('id')->autoIncrement();
             $table->unsignedInteger('score');
             $table->unsignedBigInteger('attempt_id');
-            $table->foreign('attempt_id')->references('id')->on('attempts');
+            $table->foreign('attempt_id')->references('id')->on('allowed_attempts');
             $table->text('link');
             $table->timestamps();
         });

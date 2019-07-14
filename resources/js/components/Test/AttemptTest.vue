@@ -29,7 +29,18 @@
 
 <script>
     export default {
-        name: "AttemptTest"
+        name: "AttemptTest",
+        data(){
+            return{
+
+            }
+        },
+        mounted() {
+            axios({
+                method:'get',
+                url:'/api/fetch/allActive'
+            }).then(response=>console.log(response));
+        }
     }
 </script>
 

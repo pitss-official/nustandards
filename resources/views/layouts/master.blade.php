@@ -3,12 +3,13 @@
 <head>
     <base href="./">
     <meta charset="utf-8">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
     <meta name="description" content="NuStandards - Got Skill, Get Certified. Get professional level certificate that matches with current industry standards from Nukrip Technologies Private Limited">
     <meta name="author" content="Nukrip Technologies Private Limited">
     <meta name="keyword" content="Bootstrap,Admin,Template,Open,Source,jQuery,CSS,HTML,RWD,Dashboard">
-    <title>NuStandards - Got Skill, Get Certified</title><link rel="stylesheet" href="/css/app.css"><link rel="stylesheet" href="/css/all.css"><style>.footer{position:fixed;left:0;bottom:0;width: 100%;}</style>
+    <title></title><link rel="stylesheet" href="/css/app.css"><link rel="stylesheet" href="/css/all.css"><style>.footer{position:fixed;left:0;bottom:0;width: 100%;}</style>
 </head>
 <body class="app header-fixed sidebar-fixed aside-menu-fixed sidebar-lg-show">
 <div id="app">
@@ -82,9 +83,15 @@
                 <div class="dropdown-divider"></div>
                 <a class="dropdown-item" href="#">
                     <i class="fa fa-shield"></i> Lock Account</a>
-                <a class="dropdown-item" href="#">
-                    <i class="fa fa-lock"></i> Logout</a>
+                <a class="dropdown-item" href="{{ route('logout') }}"
+                   onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();">
+                    <i class="fa fa-lock"></i>{{ __('Logout') }}
+                </a>
             </div>
+            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                @csrf
+            </form>
         </li>
     </ul>
     <button class="navbar-toggler aside-menu-toggler d-md-down-none" type="button" data-toggle="aside-menu-lg-show">

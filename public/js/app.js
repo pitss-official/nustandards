@@ -4518,6 +4518,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "StudentDashboard",
   data: function data() {
@@ -4571,7 +4572,18 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 /* harmony default export */ __webpack_exports__["default"] = ({
-  name: "AttemptTest"
+  name: "AttemptTest",
+  data: function data() {
+    return {};
+  },
+  mounted: function mounted() {
+    axios({
+      method: 'get',
+      url: '/api/fetch/allActive'
+    }).then(function (response) {
+      return console.log(response);
+    });
+  }
 });
 
 /***/ }),
@@ -64351,6 +64363,8 @@ var staticRenderFns = [
                     _vm._v(" "),
                     _c("th", [_vm._v("Topics Covered")]),
                     _vm._v(" "),
+                    _c("th", [_vm._v("Time Limit")]),
+                    _vm._v(" "),
                     _c("th", { staticClass: "text-center" }, [
                       _vm._v("Activation Date")
                     ]),
@@ -79782,14 +79796,15 @@ __webpack_require__.r(__webpack_exports__);
 /*!******************************************************!*\
   !*** ./resources/js/components/Test/AttemptTest.vue ***!
   \******************************************************/
-/*! exports provided: default */
+/*! no static exports found */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _AttemptTest_vue_vue_type_template_id_1899ac4d_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./AttemptTest.vue?vue&type=template&id=1899ac4d&scoped=true& */ "./resources/js/components/Test/AttemptTest.vue?vue&type=template&id=1899ac4d&scoped=true&");
 /* harmony import */ var _AttemptTest_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./AttemptTest.vue?vue&type=script&lang=js& */ "./resources/js/components/Test/AttemptTest.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _AttemptTest_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _AttemptTest_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__[key]; }) }(__WEBPACK_IMPORT_KEY__));
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 
 
@@ -79819,7 +79834,7 @@ component.options.__file = "resources/js/components/Test/AttemptTest.vue"
 /*!*******************************************************************************!*\
   !*** ./resources/js/components/Test/AttemptTest.vue?vue&type=script&lang=js& ***!
   \*******************************************************************************/
-/*! exports provided: default */
+/*! no static exports found */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";

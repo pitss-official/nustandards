@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
@@ -21,7 +22,14 @@ class AllowedAttempts extends Migration
            $table->foreign('user_id')->references('id')->on('users');
            $table->foreign('certification_id')->references('id')->on('certifications');
            $table->timestamps();
+           $table->boolean('is_active')->default(true);
         });
+        DB::table('allowed_attempts')->insert(
+            array(
+                'user_id'=>1,
+                'certification_id'=>1
+            )
+        );
     }
 
     /**

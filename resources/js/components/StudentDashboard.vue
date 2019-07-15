@@ -4,7 +4,7 @@
             <div class="col-sm-6 col-lg-3">
                 <div class="callout callout-info bg-white">
                     <div class="card-body pb-0">
-                        <div class="text-tile">{{activeTests}}</div>
+                        <div class="text-tile">{{activations.length}}</div>
                         <div class="tile-sub-text">Active Certifications</div>
                     </div>
                 </div>
@@ -46,15 +46,23 @@
                             <thead class="thead-light">
                             <tr>
                                 <th class="text-center">Certification ID</th>
-                                <th>Certification Name</th>
-                                <th>Topics Covered</th>
-                                <th>Time Limit</th>
+                                <th class="text-center">Certification Name</th>
+                                <th class="text-center">Topics Covered</th>
+                                <th class="text-center">Time Limit</th>
                                 <th class="text-center">Activation Date</th>
-                                <th>Link</th>
                             </tr>
                             </thead>
                             <tbody id="active-tests-table">
-                            <tr><td colspan="6">No Data</td></tr>
+                            <tr v-if="activations.length==0"><td colspan="6">No Data</td></tr>
+                            <tr v-for="activation in activations">
+                                <td class="text-center">{{activation.element.certificationCode}}</td>
+                                <td class="text-center">{{activation.element.certificationName}}</td>
+                                <td class="text-center"><div v-for="topic in activation.topics">
+                                    <b>{{topic.code+': '+topic.name}}</b><br>{{topic.list}}
+                                </div></td>
+                                <td class="text-center">{{activation.element.totalTime + ' Min'}}</td>
+                                <td class="text-center">{{activation.element.activationDate}}</td>
+                            </tr>
                             </tbody>
                         </table>
                     </div>
@@ -79,7 +87,7 @@
                             </tr>
                             </thead>
                             <tbody id="results-table">
-                            <tr><td colspan="6">No Data</td></tr>
+                            <tr v-if="results.length==0"><td colspan="6">No Data</td></tr>
                             </tbody>
                         </table>
                     </div>
@@ -96,11 +104,36 @@
         name: "StudentDashboard",
         data(){
             return{
-                activeTests:0,
                 passedTests:0,
                 pendingTests:0,
                 failedTests:0,
+                activations:[],
+                results:[],
             }
+        },
+        methods:{
+          fetchActive()
+          {
+              this.$data.activations=[];
+              axios({
+                  method:'get',
+                  url:'/api/fetch/allActive'
+              }).then(response=>{
+                  response.data.forEach((element,index)=>{
+                      axios({
+                          method:'get',
+                          url:'/api/fetch/certification/'+element.activationID+'/subjects/topics/'
+                      }).then(res=>{
+                          this.$data.activations.push({
+                              element,topics:res.data
+                          })
+                      })
+                  })
+              });
+          }
+        },
+        mounted() {
+            this.fetchActive();
         }
     }
 </script>

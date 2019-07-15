@@ -12,17 +12,47 @@
     <title>{{ config('app.name') }}</title>
     <link rel="stylesheet" href="/css/app.css">
     <link rel="stylesheet" href="/css/all.css">
-    <style>.footer {
-            position: fixed;
-            left: 0;
-            bottom: 0;
-            width: 100%;
-        }
+    <script src="/js/app.js"></script>
+    <script>
+        $('#add-info').hide();
+        document.addEventListener('contextmenu', event => event.preventDefault());
+        window.onbeforeunload = function (e) {
+            // Cancel the event
+            e.preventDefault();
 
-        .question-bar {
-            background-color: white;
-            padding: 5px
-        }</style>
+            // Chrome requires returnValue to be set
+            e.returnValue = 'Really want to quit the game?';
+        };
+
+        //Prevent Ctrl+S (and Ctrl+W for old browsers and Edge)
+        // document.onkeydown = function (e) {
+        //     e = e || window.event;//Get event
+        //
+        //     if (!e.ctrlKey) return;
+        //
+        //     var code = e.which || e.keyCode;//Get key code
+        //
+        //     switch (code) {
+        //         case 83://Block Ctrl+S
+        //         case 87://Block Ctrl+W -- Not work in Chrome and new Firefox
+        //         default:
+        //             e.preventDefault();
+        //             e.stopPropagation();
+        //             break;
+        //     }
+        // };
+        function toggle() {
+            if($('#btn-toggle').html()=="+")
+            {
+                $('#btn-toggle').html('-');
+                $('#add-info').show();
+            }
+            else {
+                $('#btn-toggle').html('+');
+                $('#add-info').hide();
+            }
+        }
+    </script>
 </head>
 <body class="app sidebar-show aside-menu-show">
 <header class="app-header ">
@@ -45,14 +75,15 @@
                 <div class="col-lg-12">
                     <div class="card">
                         <div class="card-body">
-                            <h4 class="card-title text-center">{TestID : {{$testName}}}</h4>
-                            <table class="table browser m-t-30 no-border">
+                            <h4 class="card-title text-center"><strong>{{$certification['certificationCode']}}: {{$certification['certificationName']}}</strong><div class="pull-right"><button class="btn btn-secondary" id="btn-toggle" onClick="toggle()">-</button></div></h4>
+                            <table class="table browser m-t-30 no-border" id="add-info">
                                 <tbody>
+                                @foreach($topics as $topic)
                                 <tr>
-                                    <td style="width:40px">{topicid}</td>
-                                    <td>{topic-lists}</td>
-                                    <td class="text-right"><span class="label label-light-info">23%</span></td>
+                                    <td style="font-size: 0.7rem;border-top: none" class="tr-notop">{{$topic['code']}}: {{$topic['name']}}</td>
+                                    <td class="text-right" style="font-size: 0.7rem;border-top: none"><span class="label label-light-info">33.33%</span></td>
                                 </tr>
+                                    @endforeach
                                 </tbody>
                             </table>
                         </div>
@@ -66,6 +97,7 @@
                             <h4 class="card-title">Questions</h4>
                             <table class="table browser m-t-30 no-border">
                                 <tbody>
+                                @foreach($topics as $topic)
                                 <tr class="callout callout-success bg-white">
                                     <td>Google Chrome</td>
                                     <td class="text-right"><span class="label label-light-info">23%</span></td>
@@ -73,6 +105,8 @@
                                     <td class="text-right"><span class="label label-light-info">23%</span></td>
                                 </tr>
                                 <tr class="callout callout-success bg-white"><td style="border-top: none"><button class="btn btn-info" onclick="selectQuestion({quesID})">Q1</button></td></tr>
+                                    @endforeach
+
                                 </tbody>
                             </table>
                         </div>

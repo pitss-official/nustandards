@@ -19,6 +19,7 @@ class Courses extends Migration
             $table->unsignedBigInteger('id')->autoIncrement();
             $table->string('name',255);
             $table->string('code',100);
+            $table->unsignedInteger('alloc_size')->default(0);
             $table->unsignedBigInteger('certification_id');
             $table->unsignedInteger('allowed_time')->default(0);
             $table->foreign('certification_id')->references('id')->on('certifications');

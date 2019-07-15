@@ -17,3 +17,4 @@ use Illuminate\Http\Request;
 //    return $request->user();
 //});
 Route::get('/fetch/allActive','CertificationController@allUnAttempted');
+Route::get('/fetch/certification/{activationID}/subjects/topics/','CertificationController@topicLists');

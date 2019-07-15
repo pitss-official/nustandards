@@ -4519,15 +4519,50 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "StudentDashboard",
   data: function data() {
     return {
-      activeTests: 0,
       passedTests: 0,
       pendingTests: 0,
-      failedTests: 0
+      failedTests: 0,
+      activations: [],
+      results: []
     };
+  },
+  methods: {
+    fetchActive: function fetchActive() {
+      var _this = this;
+
+      this.$data.activations = [];
+      axios({
+        method: 'get',
+        url: '/api/fetch/allActive'
+      }).then(function (response) {
+        response.data.forEach(function (element, index) {
+          axios({
+            method: 'get',
+            url: '/api/fetch/certification/' + element.activationID + '/subjects/topics/'
+          }).then(function (res) {
+            _this.$data.activations.push({
+              element: element,
+              topics: res.data
+            });
+          });
+        });
+      });
+    }
+  },
+  mounted: function mounted() {
+    this.fetchActive();
   }
 });
 
@@ -4571,18 +4606,51 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "AttemptTest",
   data: function data() {
-    return {};
+    return {
+      activations: []
+    };
+  },
+  methods: {
+    opentest: function opentest(activationID) {
+      var opn = window.open("/attemptTest/" + activationID, "_blank", "toolbar=no,scrollbars=yes,resizable=no,fullscreen=yes,channelmode=yes,directories=no,menubar=no,status=no,titlebar=no");
+      opn.opener.document.write("<p>You engaged your session by starting an examination</p>");
+    }
   },
   mounted: function mounted() {
+    var _this = this;
+
     axios({
       method: 'get',
       url: '/api/fetch/allActive'
     }).then(function (response) {
-      return console.log(response);
+      response.data.forEach(function (element, index) {
+        axios({
+          method: 'get',
+          url: '/api/fetch/certification/' + element.activationID + '/subjects/topics/'
+        }).then(function (res) {
+          _this.$data.activations.push({
+            element: element,
+            topics: res.data
+          });
+        });
+      });
     });
+    console.log(this.$data.activations);
   }
 });
 
@@ -64277,7 +64345,7 @@ var render = function() {
         _c("div", { staticClass: "callout callout-info bg-white" }, [
           _c("div", { staticClass: "card-body pb-0" }, [
             _c("div", { staticClass: "text-tile" }, [
-              _vm._v(_vm._s(_vm.activeTests))
+              _vm._v(_vm._s(_vm.activations.length))
             ]),
             _vm._v(" "),
             _c("div", { staticClass: "tile-sub-text" }, [
@@ -64330,17 +64398,7 @@ var render = function() {
       ])
     ]),
     _vm._v(" "),
-    _vm._m(0),
-    _vm._v(" "),
-    _vm._m(1)
-  ])
-}
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "row" }, [
+    _c("div", { staticClass: "row" }, [
       _c("div", { staticClass: "col-md-12" }, [
         _c("div", { staticClass: "card" }, [
           _c("div", { staticClass: "card-header" }, [_vm._v("Active Tests")]),
@@ -64353,43 +64411,68 @@ var staticRenderFns = [
                   "table table-responsive-sm table-hover table-outline mb-0"
               },
               [
-                _c("thead", { staticClass: "thead-light" }, [
-                  _c("tr", [
-                    _c("th", { staticClass: "text-center" }, [
-                      _vm._v("Certification ID")
-                    ]),
-                    _vm._v(" "),
-                    _c("th", [_vm._v("Certification Name")]),
-                    _vm._v(" "),
-                    _c("th", [_vm._v("Topics Covered")]),
-                    _vm._v(" "),
-                    _c("th", [_vm._v("Time Limit")]),
-                    _vm._v(" "),
-                    _c("th", { staticClass: "text-center" }, [
-                      _vm._v("Activation Date")
-                    ]),
-                    _vm._v(" "),
-                    _c("th", [_vm._v("Link")])
-                  ])
-                ]),
+                _vm._m(0),
                 _vm._v(" "),
-                _c("tbody", { attrs: { id: "active-tests-table" } }, [
-                  _c("tr", [
-                    _c("td", { attrs: { colspan: "6" } }, [_vm._v("No Data")])
-                  ])
-                ])
+                _c(
+                  "tbody",
+                  { attrs: { id: "active-tests-table" } },
+                  [
+                    _vm.activations.length == 0
+                      ? _c("tr", [
+                          _c("td", { attrs: { colspan: "6" } }, [
+                            _vm._v("No Data")
+                          ])
+                        ])
+                      : _vm._e(),
+                    _vm._v(" "),
+                    _vm._l(_vm.activations, function(activation) {
+                      return _c("tr", [
+                        _c("td", { staticClass: "text-center" }, [
+                          _vm._v(_vm._s(activation.element.certificationCode))
+                        ]),
+                        _vm._v(" "),
+                        _c("td", { staticClass: "text-center" }, [
+                          _vm._v(_vm._s(activation.element.certificationName))
+                        ]),
+                        _vm._v(" "),
+                        _c(
+                          "td",
+                          { staticClass: "text-center" },
+                          _vm._l(activation.topics, function(topic) {
+                            return _c("div", [
+                              _c("b", [
+                                _vm._v(_vm._s(topic.code + ": " + topic.name))
+                              ]),
+                              _c("br"),
+                              _vm._v(
+                                _vm._s(topic.list) +
+                                  "\n                            "
+                              )
+                            ])
+                          }),
+                          0
+                        ),
+                        _vm._v(" "),
+                        _c("td", { staticClass: "text-center" }, [
+                          _vm._v(_vm._s(activation.element.totalTime + " Min"))
+                        ]),
+                        _vm._v(" "),
+                        _c("td", { staticClass: "text-center" }, [
+                          _vm._v(_vm._s(activation.element.activationDate))
+                        ])
+                      ])
+                    })
+                  ],
+                  2
+                )
               ]
             )
           ])
         ])
       ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "row" }, [
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "row" }, [
       _c("div", { staticClass: "col-md-12" }, [
         _c("div", { staticClass: "card" }, [
           _c("div", { staticClass: "card-header" }, [_vm._v("My Results")]),
@@ -64402,37 +64485,63 @@ var staticRenderFns = [
                   "table table-responsive-sm table-hover table-outline mb-0"
               },
               [
-                _c("thead", { staticClass: "thead-light" }, [
-                  _c("tr", [
-                    _c("th", { staticClass: "text-center" }, [
-                      _vm._v("Test ID")
-                    ]),
-                    _vm._v(" "),
-                    _c("th", [_vm._v("Certification Name")]),
-                    _vm._v(" "),
-                    _c("th", { staticClass: "text-center" }, [
-                      _vm._v("Attended Date")
-                    ]),
-                    _vm._v(" "),
-                    _c("th", [_vm._v("Topics Covered")]),
-                    _vm._v(" "),
-                    _c("th", { staticClass: "text-center" }, [
-                      _vm._v("Results")
-                    ]),
-                    _vm._v(" "),
-                    _c("th", [_vm._v("Certificate Link")])
-                  ])
-                ]),
+                _vm._m(1),
                 _vm._v(" "),
                 _c("tbody", { attrs: { id: "results-table" } }, [
-                  _c("tr", [
-                    _c("td", { attrs: { colspan: "6" } }, [_vm._v("No Data")])
-                  ])
+                  _vm.results.length == 0
+                    ? _c("tr", [
+                        _c("td", { attrs: { colspan: "6" } }, [
+                          _vm._v("No Data")
+                        ])
+                      ])
+                    : _vm._e()
                 ])
               ]
             )
           ])
         ])
+      ])
+    ])
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", { staticClass: "thead-light" }, [
+      _c("tr", [
+        _c("th", { staticClass: "text-center" }, [_vm._v("Certification ID")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "text-center" }, [
+          _vm._v("Certification Name")
+        ]),
+        _vm._v(" "),
+        _c("th", { staticClass: "text-center" }, [_vm._v("Topics Covered")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "text-center" }, [_vm._v("Time Limit")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "text-center" }, [_vm._v("Activation Date")])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", { staticClass: "thead-light" }, [
+      _c("tr", [
+        _c("th", { staticClass: "text-center" }, [_vm._v("Test ID")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Certification Name")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "text-center" }, [_vm._v("Attended Date")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Topics Covered")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "text-center" }, [_vm._v("Results")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Certificate Link")])
       ])
     ])
   }
@@ -64458,55 +64567,119 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0)
+  return _c("div", { staticClass: "animated fadeIn" }, [
+    _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "col-md-12" }, [
+        _c("div", { staticClass: "card" }, [
+          _c("div", { staticClass: "card-header" }, [_vm._v("Active Tests")]),
+          _vm._v(" "),
+          _c("div", { staticClass: "card-body" }, [
+            _c(
+              "table",
+              {
+                staticClass:
+                  "table table-responsive-sm table-hover table-outline mb-0"
+              },
+              [
+                _vm._m(0),
+                _vm._v(" "),
+                _c(
+                  "tbody",
+                  { attrs: { id: "active-tests-table" } },
+                  [
+                    _vm.activations.length == 0
+                      ? _c("tr", [
+                          _c("td", { attrs: { colspan: "6" } }, [
+                            _vm._v("No Data")
+                          ])
+                        ])
+                      : _vm._e(),
+                    _vm._v(" "),
+                    _vm._l(_vm.activations, function(activation) {
+                      return _c("tr", [
+                        _c("td", { staticClass: "text-center" }, [
+                          _vm._v(_vm._s(activation.element.certificationCode))
+                        ]),
+                        _vm._v(" "),
+                        _c("td", { staticClass: "text-center" }, [
+                          _vm._v(_vm._s(activation.element.certificationName))
+                        ]),
+                        _vm._v(" "),
+                        _c(
+                          "td",
+                          { staticClass: "text-center" },
+                          _vm._l(activation.topics, function(topic) {
+                            return _c("div", [
+                              _c("b", [
+                                _vm._v(_vm._s(topic.code + ": " + topic.name))
+                              ]),
+                              _c("br"),
+                              _vm._v(
+                                _vm._s(topic.list) +
+                                  "\n                        "
+                              )
+                            ])
+                          }),
+                          0
+                        ),
+                        _vm._v(" "),
+                        _c("td", { staticClass: "text-center" }, [
+                          _vm._v(_vm._s(activation.element.totalTime + " Min"))
+                        ]),
+                        _vm._v(" "),
+                        _c("td", { staticClass: "text-center" }, [
+                          _vm._v(_vm._s(activation.element.activationDate))
+                        ]),
+                        _vm._v(" "),
+                        _c("td", { staticClass: "text-center" }, [
+                          _c(
+                            "button",
+                            {
+                              staticClass: "btn btn-secondary",
+                              on: {
+                                click: function($event) {
+                                  return _vm.opentest(
+                                    activation.element.activationID
+                                  )
+                                }
+                              }
+                            },
+                            [_vm._v("Start Examination")]
+                          )
+                        ])
+                      ])
+                    })
+                  ],
+                  2
+                )
+              ]
+            )
+          ])
+        ])
+      ])
+    ])
+  ])
 }
 var staticRenderFns = [
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "animated fadeIn" }, [
-      _c("div", { staticClass: "row" }, [
-        _c("div", { staticClass: "col-md-12" }, [
-          _c("div", { staticClass: "card" }, [
-            _c("div", { staticClass: "card-header" }, [_vm._v("Active Tests")]),
-            _vm._v(" "),
-            _c("div", { staticClass: "card-body" }, [
-              _c(
-                "table",
-                {
-                  staticClass:
-                    "table table-responsive-sm table-hover table-outline mb-0"
-                },
-                [
-                  _c("thead", { staticClass: "thead-light" }, [
-                    _c("tr", [
-                      _c("th", { staticClass: "text-center" }, [
-                        _vm._v("Certification ID")
-                      ]),
-                      _vm._v(" "),
-                      _c("th", [_vm._v("Certification Name")]),
-                      _vm._v(" "),
-                      _c("th", [_vm._v("Topics Covered")]),
-                      _vm._v(" "),
-                      _c("th", { staticClass: "text-center" }, [
-                        _vm._v("Activation Date")
-                      ]),
-                      _vm._v(" "),
-                      _c("th", [_vm._v("Link")])
-                    ])
-                  ]),
-                  _vm._v(" "),
-                  _c("tbody", { attrs: { id: "active-tests-table" } }, [
-                    _c("tr", [
-                      _c("td", { attrs: { colspan: "6" } }, [_vm._v("No Data")])
-                    ])
-                  ])
-                ]
-              )
-            ])
-          ])
-        ])
+    return _c("thead", { staticClass: "thead-light" }, [
+      _c("tr", [
+        _c("th", { staticClass: "text-center" }, [_vm._v("Certification ID")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "text-center" }, [
+          _vm._v("Certification Name")
+        ]),
+        _vm._v(" "),
+        _c("th", { staticClass: "text-center" }, [_vm._v("Topics Covered")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "text-center" }, [_vm._v("Time Limit")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "text-center" }, [_vm._v("Activation Date")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "text-center" }, [_vm._v("Action")])
       ])
     ])
   }

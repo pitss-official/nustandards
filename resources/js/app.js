@@ -10,6 +10,7 @@ window.Vue = require('vue');
 import VueRouter from 'vue-router';
 import VeeValidate from 'vee-validate';
 import Swal from 'sweetalert2';
+import { loadProgressBar } from 'axios-progress-bar'
 import {
     Form,
     HasError,
@@ -44,8 +45,8 @@ const router =new VueRouter({
     mode:'history',
     routes
 })
-// loadProgressBar()
-Vue.component('testLink', require('./components/ExampleComponent').default);
+loadProgressBar()
+Vue.component('QuestionersModalWindow', require('./components/AttemptWindow/QuestionModule').default);
 /**
  * The following block of code may be used to automatically register your
  * Vue components. It will recursively scan this directory for the Vue

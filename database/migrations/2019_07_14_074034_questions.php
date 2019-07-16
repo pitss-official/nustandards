@@ -21,8 +21,8 @@ class Questions extends Migration
             $table->text('option_2');
             $table->text('option_3');
             $table->text('option_4');
-            $table->text('option_others');
-            $table->text('images');
+            $table->text('option_others')->nullable();
+            $table->text('images')->nullable();
             $table->unsignedBigInteger('topic_id');
             $table->foreign('topic_id')->references('id')->on('topics');
             $table->unsignedInteger('display_times')->default(1);

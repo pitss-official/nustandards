@@ -21,6 +21,7 @@ class AllowedAttempts extends Migration
            $table->unsignedBigInteger('certification_id');
            $table->foreign('user_id')->references('id')->on('users');
            $table->foreign('certification_id')->references('id')->on('certifications');
+           $table->timestamp('end_time')->nullable();
            $table->timestamps();
            $table->boolean('is_active')->default(true);
         });

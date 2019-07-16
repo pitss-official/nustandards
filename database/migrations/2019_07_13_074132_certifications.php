@@ -19,6 +19,7 @@ class Certifications extends Migration
             $table->unsignedBigInteger('id')->autoIncrement();
             $table->string('name');
             $table->string('code',100);
+            $table->unsignedInteger('total_questions')->default(0);
             $table->unsignedInteger('allowed_time')->default(0);
             $table->string('completion_title',255);
             $table->timestamps();

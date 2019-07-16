@@ -18,3 +18,4 @@ use Illuminate\Http\Request;
 //});
 Route::get('/fetch/allActive','CertificationController@allUnAttempted');
 Route::get('/fetch/certification/{activationID}/subjects/topics/','CertificationController@topicLists');
+Route::middleware('auth:api')->post('/put/answer/','CertificationController@storeResponses');

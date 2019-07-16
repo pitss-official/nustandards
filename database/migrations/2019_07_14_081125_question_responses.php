@@ -21,6 +21,8 @@ class QuestionResponses extends Migration
             $table->text('response');
             $table->unsignedBigInteger('question_id');
             $table->foreign('question_id')->references('id')->on('questions');
+            $table->unique(['attempt_id','question_id']);
+            $table->timestamp('end_time');
             $table->timestamps();
         });
     }

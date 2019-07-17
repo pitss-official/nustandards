@@ -38,7 +38,7 @@ Vue.use(VeeValidate);
 let routes=[
     {path:'/activeCertifications',component: require('./components/Test/AttemptTest').default},
     {path:'/passedCertifications',component: require('./components/Test/PassedTests').default},
-    {path:'/contactUs',component: require('./components/Contact/Contact').default},
+    {path:'/contact-us',component: require('./components/Contact/Contact').default},
     {path:'/home',component: require('./components/StudentDashboard').default},
 ]
 const router =new VueRouter({

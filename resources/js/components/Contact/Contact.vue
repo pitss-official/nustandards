@@ -1,5 +1,7 @@
 <template>
-    
+    <div>
+        <h3>Email us at nustandards-support@nukrip.com or support@nustandards.com</h3>
+    </div>
 </template>
 
 <script>

@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div id="main-modal">
     <div class="row" id="content-window">
         <div class="col-lg-3">
             <div class="card">
@@ -24,17 +24,23 @@
             </div>
         </div>
         <div class="col-lg-9">
-            <div class="card">
+            <div class="h-100 card">
                 <div class="card-body">
                     <h5>{{selectedTopic.topicName}}<div class="text-danger pull-right">Time Remaining: {{parseInt(timeLeft/60)}}:{{parseInt(timeLeft%60)}}</div></h5>
                     <hr>
                     <div class="p-3">
                         <h4 class="card-title">{{selectedQuestion.question_text}}</h4>
-                        <div v-for="(optionText,optionIndice,answerIndice) in selectedQuestion.options" class="p-lg-1">
-                            <input v-if="selectedQuestion.type==0" type="radio" name="option" @click="selectAnswer(selectedQuestion.question_marker,(answerIndice+1))" :value="answerIndice"/>
-                            <input v-else-if="selectedQuestion.type==1" type="text" name="option-ext" @change="selectAnswer(selectedQuestion.question_marker,document.getElementsByName('option-ext')[0].value)">
+                        <div v-if="selectedQuestion.type==0" v-for="(optionText,optionIndice,answerIndice) in selectedQuestion.options" class="p-lg-1">
+                            <input type="radio" name="option" @click="selectAnswer(selectedQuestion.question_marker,(answerIndice+1))" :value="answerIndice"/>
                             <label>{{optionText}}</label>
                         </div>
+                        <div v-if="selectedQuestion.type==1" class="mb-1">
+                            <img src="/images/howToMakeSimulationLink/1.jpg"/>
+                            <img src="/images/howToMakeSimulationLink/2.jpg"/>
+                            <img src="/images/howToMakeSimulationLink/3.jpg"/>
+                            <img src="/images/howToMakeSimulationLink/4.jpg"/>
+                        </div>
+                        <input class="w-100" v-if="selectedQuestion.type==1" type="text" id="option-ext" v-model="textResponse" @change="selectAnswer(selectedQuestion.question_marker,textResponse)">
                     </div>
                     <div class="pull-right">
                         <button class="btn btn-danger" @click="endExam()">End Exam</button>
@@ -47,14 +53,7 @@
             </div>
         </div>
     </div>
-        <div id="end-test-window" style="display: none">
-            <div class="card">
-                <div class="card-body">
-                    <h1 class="text-center">Submitted Successfully!</h1>
-                    <hr>
-                    <h2 class="text-center">Kindly Close this window. Your certificate will be genrated within 72 hours after checking your simulation responses</h2>
-                </div></div>
-        </div>
+
     </div>
 </template>
 
@@ -69,7 +68,8 @@
                 selectedTopic: '',
                 markedAnswers:[],
                 lastResponse:'',
-                timeLeft:0
+                timeLeft:0,
+                textResponse:'',
             }
         },
         methods:
@@ -200,8 +200,14 @@
                                 'Your responses has been submitted.',
                                 'success'
                             ).then(val=>{
-                                $('#content-window').hide();
-                                $('#end-test-window').show();
+                                $('#main-modal').html('<div id="end-test-window">\n' +
+                                    '            <div class="card">\n' +
+                                    '                <div class="card-body">\n' +
+                                    '                    <h1 class="text-center">Submitted Successfully!</h1>\n' +
+                                    '                    <hr>\n' +
+                                    '                    <h2 class="text-center">Kindly Close this window. Your certificate will be genrated within 72 hours after checking your simulation responses</h2>\n' +
+                                    '                </div></div>\n' +
+                                    '        </div>');
                                 topicsWithQuestions=[];
                                 this.$destroy();
                             })
@@ -216,8 +222,14 @@
                 this.$data.timeLeft-=1;
                 if(this.$data.timeLeft<=0)
                 {
-                    $('#content-window').hide();
-                    $('#end-test-window').show();
+                    $('#main-modal').html('<div id="end-test-window">\n' +
+                        '            <div class="card">\n' +
+                        '                <div class="card-body">\n' +
+                        '                    <h1 class="text-center">Submitted Successfully!</h1>\n' +
+                        '                    <hr>\n' +
+                        '                    <h2 class="text-center">Kindly Close this window. Your certificate will be genrated within 72 hours after checking your simulation responses</h2>\n' +
+                        '                </div></div>\n' +
+                        '        </div>');
                     topicsWithQuestions=[];
                     this.$destroy();
                 }

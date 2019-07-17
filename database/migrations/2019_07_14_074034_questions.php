@@ -17,10 +17,10 @@ class Questions extends Migration
         Schema::create('questions', function (Blueprint $table) {
             $table->unsignedBigInteger('id')->autoIncrement();
             $table->text('question_text');
-            $table->text('option_1');
-            $table->text('option_2');
-            $table->text('option_3');
-            $table->text('option_4');
+            $table->text('option_1')->nullable();
+            $table->text('option_2')->nullable();
+            $table->text('option_3')->nullable();
+            $table->text('option_4')->nullable();
             $table->text('option_others')->nullable();
             $table->text('images')->nullable();
             $table->unsignedBigInteger('topic_id');

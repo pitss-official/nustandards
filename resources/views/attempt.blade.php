@@ -24,9 +24,6 @@
             </div>
         </div>
     </div>
-{{--            <img class="mx-auto d-block"  >--}}
-{{--        </div>--}}
-{{--    </div>--}}
 </header>
 <br>
 <div class="app-body">
@@ -53,7 +50,6 @@
             </div>
             <questioners-modal-window></questioners-modal-window>
         </div>
-        <!-- Main content here -->
     </main>
 </div>
 <footer class="footer app-footer">
@@ -66,32 +62,30 @@
 <script src="/js/app.js" defer></script>
 <script>
     document.addEventListener('contextmenu', event => event.preventDefault());
-    // window.onbeforeunload = function (e) {
-    //     e.preventDefault();
-    //     e.returnValue = 'Really want to quit the game?';
-    // };
+    window.onbeforeunload = function (e) {
+        e.preventDefault();
+        e.returnValue = 'Really want to quit?';
+    };
     window.onload = function (e) {
         $('#add-info').hide();
         $('#btn-toggle').html('+');
     }
+    document.onkeydown = function (e) {
+        e = e || window.event;//Get event
 
-    //Prevent Ctrl+S (and Ctrl+W for old browsers and Edge)
-    // document.onkeydown = function (e) {
-    //     e = e || window.event;//Get event
-    //
-    //     if (!e.ctrlKey) return;
-    //
-    //     var code = e.which || e.keyCode;//Get key code
-    //
-    //     switch (code) {
-    //         case 83://Block Ctrl+S
-    //         case 87://Block Ctrl+W -- Not work in Chrome and new Firefox
-    //         default:
-    //             e.preventDefault();
-    //             e.stopPropagation();
-    //             break;
-    //     }
-    // };
+        if (!e.ctrlKey) return;
+
+        var code = e.which || e.keyCode;//Get key code
+
+        switch (code) {
+            case 83://Block Ctrl+S
+            case 87://Block Ctrl+W -- Not work in Chrome and new Firefox
+            default:
+                e.preventDefault();
+                e.stopPropagation();
+                break;
+        }
+    };
     function toggle() {
         if($('#btn-toggle').html()=="+")
         {

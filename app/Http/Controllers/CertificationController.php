@@ -70,14 +70,8 @@ class CertificationController extends Controller
                     $ques['options']+=$moreOptions;
                 }
                 if ($question['images'] != '' || $question['images'] != null) {
-                    $allQuestionImages = [];
                     $images = explode(',', $question['images']);
-                    $i = 1;
-                    foreach ($images as $image) {
-                        $allQuestionImages += ['image_'.$i => $image];
-                        $i++;
-                    }
-                    $ques['images']+=$allQuestionImages;
+                    $ques['images']=$images;
                 }
                 array_push($finalQuestions,$ques);
             }
@@ -123,15 +117,14 @@ class CertificationController extends Controller
             'certification' => $certs
         ];
         $attempt->is_active=0;
-        //todo rem produc
-//        $attempt->save();
+        $attempt->save();
         return view('attempt', $data);
     }
 
     public function allUnAttempted()
     {
         $appUser = User::getCurrentAPIUser();
-        return AllowedAttempt::where('user_id', $appUser['id'])
+        return AllowedAttempt::where([['user_id','=', $appUser['id']],['is_active','=',1]])
             ->leftJoin('certifications', 'allowed_attempts.certification_id', '=', 'certifications.id')
 //            ->leftJoin('courses','courses.certification_id','=','certifications.id')
 //            ->leftJoin('topics','topics.course_id','=','courses.id')

@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
     <meta name="description" content="NuStandards - Got Skill, Get Certified. Get professional level certificate that matches with current industry standards from Nukrip Technologies Private Limited">
     <meta name="author" content="Nukrip Technologies Private Limited">
-    <meta name="keyword" content="Bootstrap,Admin,Template,Open,Source,jQuery,CSS,HTML,RWD,Dashboard">
+    <meta name="keyword" content="Certification,Professional,Engineering,Test,CSE,ECE,Nukrip,Languages,Driverless,Simulation,Automation,Selfdriving,Autonomus,Cars">
     <title>{{ config('app.name') }}</title><link rel="stylesheet" href="{{@asset('css/app.css')}}"><link rel="stylesheet" href="{{@asset('css/all.css')}}"><style>.footer{position:fixed;left:0;bottom:0;width: 100%;}</style>
 </head>
 <body class="app header-fixed sidebar-fixed aside-menu-fixed sidebar-lg-show">
@@ -27,7 +27,7 @@
     <ul class="nav navbar-nav ml-auto">
         <li class="nav-item dropdown">
             <a class="nav-link" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
-                <img class="img-avatar" src="/images/user.svg" alt="admin@bootstrapmaster.com">
+                <img class="img-avatar" src="/images/user.svg" >
             </a>
             <div class="dropdown-menu dropdown-menu-right">
                 <a class="dropdown-item" href="{{ route('logout') }}"
@@ -55,6 +55,10 @@
                 <li class="nav-item">
                     <router-link class="nav-link" to="/activeCertifications">
                         <i class="nav-icon icon-briefcase"></i> Active Certifications</router-link>
+                </li>
+                <li class="nav-item">
+                    <router-link class="nav-link" to="/pendingCertifications">
+                        <i class="nav-icon icon-badge"></i> Pending Results</router-link>
                 </li>
                 <li class="nav-item">
                     <router-link class="nav-link" to="/passedCertifications">
@@ -88,9 +92,9 @@
         <div class="container-fluid">
             <div class="animated fadeIn">
                 <router-view></router-view>
-            </div>
-        </div>
-    </main>
+</div>
+</div>
+</main>
 </div>
 </div>
 <footer class="app-footer footer">
@@ -98,7 +102,7 @@
         <span>NuStandards &copy; {{date("Y")}} - {{date("Y")+1}}</span>
         <a href="https://www.nukrip.com">Nukrip Technologies Private Limited</a>
     </div>
-</div>
+    </div>
 </footer>
 <script src="{{@asset('js/app.js')}}"></script>
 </body>

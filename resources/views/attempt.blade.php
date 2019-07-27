@@ -12,6 +12,7 @@
     <title>{{ config('app.name') }}</title>
     <link rel="stylesheet" href="/css/app.css">
     <link rel="stylesheet" href="/css/all.css">
+    <link rel="icon" href="{{@asset('/images/logos.png')}}">
     <style>.footer{position:fixed;left:0;bottom:0;width: 100%;}</style>
 </head>
 <body class="app sidebar-show aside-menu-show">
@@ -78,8 +79,8 @@
         var code = e.which || e.keyCode;//Get key code
 
         switch (code) {
-            case 83://Block Ctrl+S
-            case 87://Block Ctrl+W -- Not work in Chrome and new Firefox
+            case 83:
+            case 87:
             default:
                 e.preventDefault();
                 e.stopPropagation();

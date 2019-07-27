@@ -15,6 +15,7 @@ class Results extends Migration
     {
         //
         Schema::create('results', function (Blueprint $table) {
+            $table->string('certID',100)->unique();
             $table->unsignedBigInteger('id')->autoIncrement();
             $table->unsignedInteger('score');
             $table->unsignedBigInteger('attempt_id');

@@ -14,17 +14,6 @@ use Illuminate\Support\Facades\Auth;
 
 class CertificationController extends Controller
 {
-    //
-    public function __construct()
-    {
-
-    }
-
-    /**
-     * Show the application dashboard.
-     *
-     * @return \Illuminate\Contracts\Support\Renderable
-     */
     public function index(int $activationID)
     {
         $this->middleware('auth');
@@ -123,6 +112,7 @@ class CertificationController extends Controller
 
     public function allUnAttempted()
     {
+        $this->middleware('auth:api');
         $appUser = User::getCurrentAPIUser();
         return AllowedAttempt::where([['user_id','=', $appUser['id']],['is_active','=',1]])
             ->leftJoin('certifications', 'allowed_attempts.certification_id', '=', 'certifications.id')
@@ -139,6 +129,7 @@ class CertificationController extends Controller
 
     public function topicLists(int $activationID)
     {
+        $this->middleware('auth:api');
         $appUser = User::getCurrentAPIUser();
         $certID = AllowedAttempt::where([['allowed_attempts.id', '=', $activationID], ['allowed_attempts.user_id', '=', $appUser['id']]])->value('certification_id');
         return Course::where('courses.certification_id', $certID)

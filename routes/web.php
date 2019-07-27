@@ -18,5 +18,9 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
-Route::middleware('auth')->get('/attemptTest/{id}','CertificationController@index')->name('attemptTest');
+Route::get('/cert/verify', 'HomeController@verify')->name('home');
+Route::middleware('auth', 'throttle:5,1')->post('/validate', 'AdminActionsController@validateCert');
+Route::middleware('auth', 'throttle:5,1')->get('/attemptTest/{id}','CertificationController@index')->name('attemptTest');
+//todo work on restriction of downloding
+//Route::middleware('auth')->get('/certificates/{id}','CertificationController@download')->name('attemptTest');
 Route::get('{path}','HomeController@index')->where( 'path', '([A-z\d/-/_.]+)?' );

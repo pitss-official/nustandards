@@ -126,6 +126,22 @@ class CertificationController extends Controller
                 'allowed_attempts.created_at as activationDate'
             )->get();
     }
+    public function allPassed()
+    {
+        $this->middleware('auth:api');
+        $appUser = User::getCurrentAPIUser();
+        return AllowedAttempt::where([['user_id','=', $appUser['id']],['is_active','=',0]])
+            ->leftJoin('certifications', 'allowed_attempts.certification_id', '=', 'certifications.id')
+            ->leftJoin('results', 'results.attempt_id','=','allowed_attempts.id')
+            ->select(
+                'allowed_attempts.id as activationID',
+                'certifications.name as certificationName',
+                'allowed_attempts.updated_at as attendedDate',
+                'results.score as grade',
+                'results.link as link',
+                'results.end_date as validity'
+            )->get();
+    }
 
     public function topicLists(int $activationID)
     {

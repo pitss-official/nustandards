@@ -17,10 +17,13 @@ class Results extends Migration
         Schema::create('results', function (Blueprint $table) {
             $table->string('certID',100)->unique();
             $table->unsignedBigInteger('id')->autoIncrement();
-            $table->unsignedInteger('score');
-            $table->unsignedBigInteger('attempt_id');
+            $table->integer('marks');
+            $table->string('score',5);
+            $table->unsignedBigInteger('attempt_id')->unique();
             $table->foreign('attempt_id')->references('id')->on('allowed_attempts');
-            $table->text('link');
+            $table->text('link')->nullable();
+            $table->date('start')->nullable();
+            $table->date('end_date')->nullable();
             $table->timestamps();
         });
     }

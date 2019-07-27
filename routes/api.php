@@ -17,6 +17,7 @@ use Illuminate\Http\Request;
 //    return $request->user();
 //});
 Route::get('/fetch/allActive','CertificationController@allUnAttempted');
+Route::get('/fetch/allPassed','CertificationController@allPassed');
 Route::get('/fetch/certification/{activationID}/subjects/topics/','CertificationController@topicLists');
 Route::middleware('auth:api')->post('/put/answer/','CertificationController@storeResponses');
 Route::middleware('auth:api')->post('/admin/action/generateCertificate','AdminActionsController@generateCertificate');

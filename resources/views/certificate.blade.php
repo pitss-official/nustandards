@@ -34,21 +34,21 @@
 
 <div class="row">
     <div class="column" style="width: 5.8%"></div>
-    <div class="column" style="width: 50%; margin-top: 7.87cm"><center><p style="font-size: 40px; font-family: 'Pacifico', cursive;">Rohan Kumar</p></center></div>
+    <div class="column" style="width: 50%; margin-top: 7.87cm"><center><p style="font-size: 40px; font-family: 'Pacifico', cursive;">{{$name}}</p></center></div>
     <div class="column" style="width: 35%"></div>
 </div>
 <div class="row" style="margin-top: 2.55cm">
     <div class="column" style="width: 9.75%"></div>
     <div class="column">
-        <p style="font-size: 14px; font-family: 'Source Code Pro ExtraLight';">A+</p>
-        <p style="font-size: 14px; font-family: 'Source Code Pro ExtraLight'; margin-top: -0.535cm">sadiua3490590x7</p>
-        <p style="font-size: 14px; font-family: 'Source Code Pro ExtraLight'; margin-top: -0.525cm">July,2019</p>
-        <p style="font-size: 14px; font-family: 'Source Code Pro ExtraLight'; margin-top: -0.525cm">July, 2021</p>
+        <p style="font-size: 14px; font-family: 'Source Code Pro ExtraLight';">{{$grade}}</p>
+        <p style="font-size: 14px; font-family: 'Source Code Pro ExtraLight'; margin-top: -0.535cm">{{$certID}}</p>
+        <p style="font-size: 14px; font-family: 'Source Code Pro ExtraLight'; margin-top: -0.525cm">{{$validStart}}</p>
+        <p style="font-size: 14px; font-family: 'Source Code Pro ExtraLight'; margin-top: -0.525cm">{{$validEnd}}</p>
     </div>
 </div>
 <div class="row" style="padding-top: 17.225cm; position: fixed;z-index: 10;">
     <div class="column" style="width: 1.5%"></div>
-    <div class="column" style="width: 95%"><p style="font-family: 'Libre Barcode 39', cursive; font-size: 27px">sadiua3490590x7</p></div>
+    <div class="column" style="width: 95%"><p style="font-family: 'Libre Barcode 39', cursive; font-size: 27px">{{$certID}}</p></div>
 </div>
 </body>
 </html>

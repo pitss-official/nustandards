@@ -13,7 +13,7 @@
             <div class="col-sm-6 col-lg-3">
                 <div class="callout callout-success bg-white">
                     <div class="card-body pb-0">
-                        <div class="text-tile">{{passedTests}}</div>
+                        <div class="text-tile">{{results.length}}</div>
                         <div class="tile-sub-text">Passed Certifications</div>
                     </div>
                 </div>
@@ -79,15 +79,29 @@
                             <thead class="thead-light">
                             <tr>
                                 <th class="text-center">Test ID</th>
-                                <th>Certification Name</th>
+                                <th class="text-center">Certification Name</th>
                                 <th class="text-center">Attended Date</th>
-                                <th>Topics Covered</th>
+                                <th class="text-center">Topics Covered</th>
                                 <th class="text-center">Results</th>
-                                <th>Certificate Link</th>
+                                <th class="text-center">Valid Till</th>
+                                <th class="text-center">Certificate Link</th>
                             </tr>
                             </thead>
                             <tbody id="results-table">
-                            <tr v-if="results.length==0"><td colspan="6">No Data</td></tr>
+                            <tr v-if="results.length==0"><td colspan="7">No Data</td></tr>
+                            <tr v-for="result in results">
+                                <td class="text-center">{{result.element.activationID}}</td>
+                                <td class="text-center">{{result.element.certificationName}}</td>
+                                <td class="text-center">{{result.element.attendedDate}}</td>
+                                <td class="text-center"><div v-for="topic in result.topics">
+                                    <b>{{topic.code+': '+topic.name}}</b><br>{{topic.list}}
+                                </div></td>
+                                <td class="text-center" v-if="result.element.grade!=null">{{result.element.grade}}</td>
+                                <td class="text-center" v-else>Pending</td>
+                                <td class="text-center" v-if="result.element.validity!=null">{{result.element.validity}}</td>
+                                <td class="text-center" v-else>Inactive</td>
+                                <td class="text-center"><a v-if="result.element.link!=null" :href="result.element.link">Certificate</a><div v-else>Pending</div></td>
+                            </tr>
                             </tbody>
                         </table>
                     </div>
@@ -104,7 +118,6 @@
         name: "StudentDashboard",
         data(){
             return{
-                passedTests:0,
                 pendingTests:0,
                 failedTests:0,
                 activations:[],
@@ -130,10 +143,29 @@
                       })
                   })
               });
+          },fetchResults()
+          {
+              this.$data.results=[];
+              axios({
+                  method:'get',
+                  url:'/api/fetch/allPassed'
+              }).then(response=>{
+                  response.data.forEach((element,index)=>{
+                      axios({
+                          method:'get',
+                          url:'/api/fetch/certification/'+element.activationID+'/subjects/topics/'
+                      }).then(res=>{
+                          this.$data.results.push({
+                              element,topics:res.data
+                          })
+                      })
+                  })
+              });
           }
         },
         mounted() {
             this.fetchActive();
+            this.fetchResults();
         }
     }
 </script>

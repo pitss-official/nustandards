@@ -10,15 +10,16 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 class CertificationComplete extends Mailable
 {
     use Queueable, SerializesModels;
-
+    private $viewVars=[];
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($viewVars)
     {
         //
+        $this->viewVars=$viewVars;
     }
 
     /**
@@ -28,6 +29,6 @@ class CertificationComplete extends Mailable
      */
     public function build()
     {
-        return $this->view('emails.certification-completed');
+        return $this->subject('Congratulations! on completing certification')->view('emails.certification-completed',$this->viewVars);
     }
 }

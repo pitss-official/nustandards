@@ -56,14 +56,20 @@
                     <router-link class="nav-link" to="/activeCertifications">
                         <i class="nav-icon icon-briefcase"></i> Active Certifications</router-link>
                 </li>
-                <li class="nav-item">
-                    <router-link class="nav-link" to="/pendingCertifications">
-                        <i class="nav-icon icon-badge"></i> Pending Results</router-link>
-                </li>
+{{--                <li class="nav-item">--}}
+{{--                    <router-link class="nav-link" to="/pendingCertifications">--}}
+{{--                        <i class="nav-icon icon-badge"></i> Pending Results</router-link>--}}
+{{--                </li>--}}
                 <li class="nav-item">
                     <router-link class="nav-link" to="/passedCertifications">
                         <i class="nav-icon icon-badge"></i> Passed Certifications</router-link>
                 </li>
+                @if(Auth::user()->id==1)
+                <li class="nav-item">
+                    <router-link class="nav-link" to="/genrateCert">
+                        <i class="nav-icon icon-badge"></i> Genrate Certificate</router-link>
+                </li>
+                @endif
                 <li class="divider"></li>
                 <li class="nav-title">Support</li>
                 <li class="nav-item">
